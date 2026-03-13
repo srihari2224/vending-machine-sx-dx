@@ -397,11 +397,11 @@ function MainUI() {
         {/* Top-right action buttons */}
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 10, display: "flex", justifyContent: "flex-end", alignItems: "center", padding: "20px 24px", gap: 8 }}>
           {/* Owner Sign In */}
-          <HoverButton
+          {/* <HoverButton
             label="Owner Sign In"
             onClick={() => setShowOwnerSignIn(true)}
             hoverColor="#ff6b47"
-          />
+          /> */}
           {/* Admin gear icon */}
           <button
             onClick={() => setShowPasskey(true)}

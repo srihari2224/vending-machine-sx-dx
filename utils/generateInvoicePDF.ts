@@ -105,9 +105,9 @@ function drawStamp(radiusPx: number): string {
 }
 
 /* ════════════════════════════════════════════════
-   MAIN EXPORT
+   MAIN DOCUMENT GENERATOR
    ════════════════════════════════════════════════ */
-export async function generateInvoicePDF(data: InvoiceData): Promise<void> {
+async function generateInvoiceDoc(data: InvoiceData): Promise<{ doc: any, invNum: string }> {
     const jsPDF = await loadJsPDF()
     const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" })
 
@@ -345,8 +345,18 @@ export async function generateInvoicePDF(data: InvoiceData): Promise<void> {
     doc.setFont("helvetica", "bold"); tc(BLUE)
     doc.text("Powered by INNVERA  ·  PRINTIT Self-Service Kiosk  ·  +91 8919022539", W / 2, fY + 9, { align: "center" })
 
-    /* ─────────────────────────────────────────────
-       DOWNLOAD
-    ───────────────────────────────────────────── */
+    return { doc, invNum }
+}
+
+/* ════════════════════════════════════════════════
+   EXPORTS
+   ════════════════════════════════════════════════ */
+export async function generateInvoicePDF(data: InvoiceData): Promise<void> {
+    const { doc, invNum } = await generateInvoiceDoc(data)
     doc.save(`printit-invoice-${invNum}.pdf`)
+}
+
+export async function generateInvoicePDFBlob(data: InvoiceData): Promise<Blob> {
+    const { doc } = await generateInvoiceDoc(data)
+    return doc.output('blob')
 }
